@@ -1,0 +1,5 @@
+#cloud-config
+
+runcmd:
+  - mkdir /root/userdata
+  - mount /dev/xvdg /root/userdata
