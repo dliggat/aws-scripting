@@ -1,35 +1,37 @@
 #/bin/bash
 
-# Update the variables appropriately and source this file.
 
+AMI=ami-d5c5d1e5  # Amazon linux.
+SECURITY_GROUP_NAME="dliggat-web-sg"
+KEY_NAME=daveliggat-trinimbus
+KEY_PATH="${HOME}/.ssh/${KEY_NAME}.pem"
+USER_DATA="file://user-data.yml"
+EC2_TAG="dliggat-load-balancing-exp"
 
-
-AMI=ami-3b6c620b    # ssg-trunk-07-29-2015-at-05-46-41
-KEY_NAME=triautoUSWest2
-KEY_PATH="deploy-portal-aws/etc/${KEY_NAME}.pem"
-USER_DATA="file://dave-user-data.txt"
-BLOCK=$(ruby -e "require 'json'; obj = JSON.parse(IO.read 'dave-ebs.json'); puts JSON.generate obj")
-
-INSTANCE=$(aws ec2 run-instances \
-           --image-id ${AMI} \
-           --count 1 \
-           --instance-type m3.medium \
-           --key-name ${KEY_NAME} \
-           --block-device-mappings ${BLOCK} \
+INSTANCE=$(aws ec2 run-instances                    \
+           --image-id ${AMI}                        \
+           --count 1                                \
+           --instance-type m3.medium                \
+           --security-groups ${SECURITY_GROUP_NAME} \
+           --key-name ${KEY_NAME}                   \
            --user-data ${USER_DATA} | jq -r '.Instances[0].InstanceId')
 
-echo ${INSTANCE}
+echo "Instance: ${INSTANCE}"
 echo 'sleeping for a bit...'
 sleep 10
 
+echo "Tagging with: ${EC2_TAG}"
+aws ec2 create-tags --resources ${INSTANCE} --tags Key=Name,Value=${EC2_TAG}
+
 PUBLIC_IP=$(aws ec2 describe-instances --instance-ids ${INSTANCE} | jq -r '.Reservations[0].Instances[0].PublicIpAddress')
 echo ${PUBLIC_IP}
+echo "ssh -i ${KEY_PATH} ec2-user@${PUBLIC_IP}"
 
-eval "function connect { ssh -v -i ${KEY_PATH} root@${PUBLIC_IP} }"
+# eval "function connect { ssh -v -i ${KEY_PATH} root@${PUBLIC_IP} }"
 
-eval "function delete { aws ec2 stop-instances --instance-ids ${INSTANCE} }"
+# eval "function delete { aws ec2 stop-instances --instance-ids ${INSTANCE} }"
 
-eval "function describe { aws ec2 describe-instances --instance-ids ${INSTANCE} }"
+# eval "function describe { aws ec2 describe-instances --instance-ids ${INSTANCE} }"
 
 
 

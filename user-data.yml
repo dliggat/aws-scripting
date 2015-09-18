@@ -1,0 +1,18 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - git
+  - nginx
+runcmd:
+  - service nginx start
+  - service nginx stop
+  - mv /etc/nginx /etc/OLDnginx
+  - git clone https://github.com/dliggat/sample-nginx-config /etc/nginx
+  - git --git-dir=/etc/nginx/.git --work-tree=/etc/nginx checkout lb-node
+  - useradd www
+  - mkdir -p /sites/example.com/public
+  - echo "<html><body><p>Hello world</p></body></html>" > /sites/example.com/public/index.html
+  - chown -R www /sites/example.com/public
+  - chmod -R 755 /sites/example.com/public
+  - service nginx start
+  - chmod o+x /var/log/nginx
