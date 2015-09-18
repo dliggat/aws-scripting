@@ -1,7 +1,7 @@
 #/bin/bash
 
-AMI=ami-d5c5d1e5  # Amazon linux.
-SECURITY_GROUP_NAME="dliggat-web-sg"
+AMI=ami-d5c5d1e5                         # Amazon linux.
+SECURITY_GROUP_NAME="dliggat-web-sg"     # HTTP/HTTPS/SSH ingress.
 KEY_NAME=daveliggat-trinimbus
 KEY_PATH="${HOME}/.ssh/${KEY_NAME}.pem"
 
@@ -20,7 +20,7 @@ INSTANCE=$(aws ec2 run-instances                      \
              --user-data ${USER_DATA} | jq -r '.Instances[0].InstanceId')
 
 echo "Instance: ${INSTANCE}"
-echo 'sleeping for a bit...'
+echo "Sleeping for ${SLEEP_TIME} seconds..."
 sleep ${SLEEP_TIME}
 
 echo "Tagging with: ${EC2_TAG}"
