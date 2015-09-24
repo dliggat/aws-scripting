@@ -49,10 +49,10 @@
                 "content": { "Fn::Join" : ["", [
                   "[cfn-auto-reloader-hook]\n",
                   "triggers=post.update\n",
-                  "path=Resources.WebServer.Metadata.AWS::CloudFormation::Init\n",
+                  "path=Resources.Ec2Instance.Metadata.AWS::CloudFormation::Init\n",
                   "action=/opt/aws/bin/cfn-init -v ",
                   "         --stack ", { "Ref" : "AWS::StackName" },
-                  "         --resource WebServer ",
+                  "         --resource Ec2Instance ",
                   "         --configsets full_install ",
                   "         --region ", { "Ref" : "AWS::Region" }, "\n",
                   "runas=root\n"
@@ -89,13 +89,13 @@
 
           "/opt/aws/bin/cfn-init -v ",
           "         --stack ", { "Ref" : "AWS::StackId" },
-          "         --resource WebServer ",
+          "         --resource Ec2Instance ",
           "         --configsets full_install ",
           "         --region ", { "Ref" : "AWS::Region" }, "\n",
 
           "/opt/aws/bin/cfn-signal -e $? ",
           "         --stack ", { "Ref" : "AWS::StackId" },
-          "         --resource WebServer ",
+          "         --resource Ec2Instance ",
           "         --region ", { "Ref" : "AWS::Region" }, "\n"
         ]]}}
       }
