@@ -6,9 +6,9 @@ KEY_NAME=daveliggat-trinimbus
 KEY_PATH="${HOME}/.ssh/${KEY_NAME}.pem"
 
 USER_DATA="file://user-data.yml"
-EC2_TAG="dliggat-load-balancing-exp"
+EC2_TAG="${EC2_TAG:-dliggat-load-balancing-exp}"
+INSTANCE_COUNT="${INSTANCE_COUNT:-1}"
 SLEEP_TIME=15
-INSTANCE_COUNT=1
 INSTANCE_TYPE=m3.medium
 
 INSTANCE=$(aws ec2 run-instances                      \
