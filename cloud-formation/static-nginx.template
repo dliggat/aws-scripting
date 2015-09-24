@@ -4,9 +4,14 @@
 
   "Parameters" : {
       "SSHKey" : {
-          "Type" : "String",
-          "Default" : "daveliggat-trinimbus",
-          "Description" : "Specify the name of the SSH keypair to use for configuring SSH access to the application node so you can connect to it and configure it once it is launched. Check the EC2 Console to find an appropriate SSH key for the region you're launching this stack into. You must have access to the private key (.pem file)."
+        "Type" : "String",
+        "Default" : "daveliggat-trinimbus",
+        "Description" : "Specify the name of the SSH keypair to use for configuring SSH access to the application node so you can connect to it and configure it once it is launched. Check the EC2 Console to find an appropriate SSH key for the region you're launching this stack into. You must have access to the private key (.pem file)."
+      },
+      "InstanceType" : {
+        "Type" : "String",
+        "Default" : "m3.medium",
+        "Description" : "Instance type."
       }
     },
 
@@ -25,6 +30,7 @@
       "Properties" : {
         "SecurityGroups" : [ { "Ref" : "WebSecurityGroup" } ],
         "KeyName" : { "Ref" : "SSHKey" },
+        "InstanceType" : { "Ref" : "InstanceType" },
         "ImageId" : { "Fn::FindInMap" : [ "mapConfig" , "WebNode", "LinuxAmi" ] }
       }
     },
