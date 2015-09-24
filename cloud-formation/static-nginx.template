@@ -1,0 +1,61 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Spin up a basic nginx instance",
+
+  "Parameters" : {
+      "SSHKey" : {
+          "Type" : "String",
+          "Default" : "daveliggat-trinimbus",
+          "Description" : "Specify the name of the SSH keypair to use for configuring SSH access to the application node so you can connect to it and configure it once it is launched. Check the EC2 Console to find an appropriate SSH key for the region you're launching this stack into. You must have access to the private key (.pem file)."
+      }
+    },
+
+  "Mappings" : {
+
+    "mapConfig" : {
+        "WebNode" : {
+            "LinuxAmi" : "ami-d5c5d1e5"
+        }
+    }
+  },
+
+  "Resources" : {
+    "Ec2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "SecurityGroups" : [ { "Ref" : "WebSecurityGroup" } ],
+        "KeyName" : { "Ref" : "SSHKey" },
+        "ImageId" : { "Fn::FindInMap" : [ "mapConfig" , "WebNode", "LinuxAmi" ] }
+      }
+    },
+
+    "WebSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Enable SSH access via port 22",
+        "SecurityGroupIngress" : [ {
+          "IpProtocol" : "tcp",
+          "FromPort" : "22",
+          "ToPort" : "22",
+          "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "443",
+          "ToPort" : "443",
+          "CidrIp" : "0.0.0.0/0"
+        }
+        ]
+      }
+    }
+  }
+
+
+
+}
