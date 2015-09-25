@@ -1,5 +1,7 @@
 # AWS-Scripting
 
+[![Build Status](https://travis-ci.org/dliggat/aws-scripting.svg?branch=master)](https://travis-ci.org/dliggat/aws-scripting)
+
 Various scripts for spinning up AWS infrastructure.
 
 ## Cloud Formation
