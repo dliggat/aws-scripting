@@ -1,0 +1,22 @@
+language: python
+python:
+  - "2.7"
+cache: apt
+install:
+  - "sudo apt-get install pandoc"
+  - "sudo pip install awscli"
+script: "aws s3 sync cloud-formation/ s3://dliggat-cloud-formation --delete --region us-west-2"
+# deploy:
+#   provider: s3
+#   access_key_id: $AWS_ACCESS_KEY_ID
+#   secret_access_key: $AWS_SECRET_ACCESS_KEY
+#   bucket: dliggat-cloud-formation
+#   # endpoint: https://s3-us-west-2.amazonaws.com/dliggat-cloud-formation/static-nginx.template
+#   region: us-west-2
+#   skip_cleanup: true
+#   local-dir: output
+#   acl: public_read
+#   detect_encoding: true
+# notifications:
+#   email:
+#     on_failure: always

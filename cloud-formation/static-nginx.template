@@ -23,9 +23,9 @@
   "Mappings" : {
 
     "mapConfig" : {
-        "WebNode" : {
-            "LinuxAmi" : "ami-d5c5d1e5"
-        }
+      "WebNode" : {
+          "LinuxAmi" : "ami-d5c5d1e5"
+      }
     }
   },
 
