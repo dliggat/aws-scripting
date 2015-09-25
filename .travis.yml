@@ -3,6 +3,5 @@ python:
   - "2.7"
 cache: apt
 install:
-  - "sudo apt-get install pandoc"
   - "sudo pip install awscli"
 script: "aws s3 sync cloud-formation/ s3://dliggat-cloud-formation --delete --region us-west-2"
