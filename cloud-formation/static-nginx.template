@@ -12,6 +12,11 @@
         "Type" : "String",
         "Default" : "m3.medium",
         "Description" : "Instance type."
+      },
+      "InstanceName" : {
+        "Type" : "String",
+        "Default" : "dliggat-cf",
+        "Description" : "Instance name"
       }
     },
 
@@ -81,6 +86,12 @@
       "Properties" : {
         "SecurityGroups" : [ { "Ref" : "WebSecurityGroup" } ],
         "KeyName" : { "Ref" : "SSHKey" },
+        "Tags" : [
+          {
+            "Key"   : "Name",
+            "Value" : { "Ref" : "InstanceName" }
+          }
+        ],
         "InstanceType" : { "Ref" : "InstanceType" },
         "ImageId"  : { "Fn::FindInMap" : [ "mapConfig" , "WebNode", "LinuxAmi" ] },
         "UserData" : { "Fn::Base64" : { "Fn::Join" : ["", [
