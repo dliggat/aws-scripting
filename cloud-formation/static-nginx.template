@@ -137,6 +137,19 @@
         ]
       }
     }
+  },
+
+  "Outputs" : {
+
+    "PublicIp" : {
+      "Description" : "The public IP of the EC2 instance",
+      "Value" : { "Fn::GetAtt" : [ "Ec2Instance" , "PublicIp" ] }
+    },
+
+    "PublicDns" : {
+      "Description" : "The public DNS of the EC2 instance",
+      "Value" : { "Fn::GetAtt" : [ "Ec2Instance" , "PublicDnsName" ] }
+    }
   }
 
 
