@@ -77,8 +77,7 @@
             "packages" : {
               "yum" : {
                 "git"   : [],
-                "nginx" : [],
-                "mysql" : []
+                "nginx" : []
               }
             }
           }
