@@ -4,4 +4,4 @@ python:
 cache: apt
 install:
   - "sudo pip install awscli"
-script: "aws s3 sync cloud-formation/ s3://dliggat-cloud-formation --delete --region us-west-2"
+script: "aws s3 sync cloud-formation/ s3://$CF_S3_BUCKET --delete --region $AWS_REGION"
