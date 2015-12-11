@@ -1,0 +1,9 @@
+#cloud-config
+apt_upgrade: true
+packages:
+  - git
+  - tmux
+runcmd:
+  - echo hello > /tmp/hello
+  - wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.10.0-1_amd64.deb -O /tmp/chefdk
+  - dpkg -i /tmp/chefdk  # This takes a few minutes after SSH-ability to finish.
